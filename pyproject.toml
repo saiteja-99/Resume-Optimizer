@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "resumeoptimizer"
+version = "0.1.0"
+description = "A Python toolkit for resume analysis, ATS-style scoring, job matching, and resume tailoring."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Sai Teja"}
+]
+dependencies = []
+
+[project.scripts]
+resume-optimizer = "resumeoptimizer.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/resumeoptimizer"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.6",
+]
