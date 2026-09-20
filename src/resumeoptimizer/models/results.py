@@ -24,6 +24,24 @@ class Recommendation:
 
 
 @dataclass
+class SkillMatchResult:
+    """Store the result of resume and job-description skill matching."""
+
+    matched_required: list[str] = field(default_factory=list)
+    missing_required: list[str] = field(default_factory=list)
+    matched_preferred: list[str] = field(default_factory=list)
+    missing_preferred: list[str] = field(default_factory=list)
+
+
+@dataclass
+class KeywordMatchResult:
+    """Store the result of resume and job-description keyword matching."""
+
+    matched_keywords: list[str] = field(default_factory=list)
+    missing_keywords: list[str] = field(default_factory=list)
+
+
+@dataclass
 class AnalysisResult:
     """Store the complete result of resume-job analysis."""
 
