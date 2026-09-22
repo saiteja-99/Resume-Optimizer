@@ -109,7 +109,7 @@ class JobDescriptionExtractor:
         return line.strip()
 
     def _is_heading(self, line: str) -> bool:
-        """Determine whether a line looks like a section heading."""
+        """Determine whether a line looks like a skill-section heading."""
         normalized = self._normalize_heading(line)
 
         known_headings = self.REQUIRED_HEADINGS | self.PREFERRED_HEADINGS
