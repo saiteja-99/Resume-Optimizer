@@ -1,5 +1,8 @@
 """Resume Tailoring and ATS Optimization Toolkit."""
 
+__version__ = "0.1.0"
+
+from resumeoptimizer.makers import ResumeMaker
 from resumeoptimizer.models import (
     AnalysisResult,
     JobDescription,
@@ -13,7 +16,7 @@ __all__ = [
     "JobDescription",
     "Recommendation",
     "Resume",
+    "ResumeMaker",
     "ScoreBreakdown",
+    "__version__",
 ]
-
-__version__ = "0.1.0"
