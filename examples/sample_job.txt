@@ -1,0 +1,8 @@
+AI/ML Engineer
+Example AI GmbH
+
+Required Skills
+Python, Machine Learning, SQL, AWS
+
+Preferred Skills
+Docker, Kubernetes, Git

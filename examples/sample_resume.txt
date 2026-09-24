@@ -1,0 +1,19 @@
+Hello Doe
+hello.doe@example.com
++49 123 456789
+
+Professional Summary
+Software Engineer with experience in Python and web development.
+
+Skills
+Python, SQL, Git, Machine Learning
+
+Experience
+Software Engineer
+Developed software applications using Python and SQL.
+
+Projects
+Machine Learning Resume Analyzer
+
+Education
+Bachelor of Computer Science
