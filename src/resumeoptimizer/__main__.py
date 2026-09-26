@@ -3,6 +3,7 @@
 import argparse
 from pathlib import Path
 
+from resumeoptimizer.analysis import AnalysisReport
 from resumeoptimizer.extraction import (
     JobDescriptionExtractor,
     ResumeExtractor,
@@ -13,6 +14,7 @@ from resumeoptimizer.parsers import DocumentLoader
 from resumeoptimizer.processing import SectionDetector
 from resumeoptimizer.recommendations import RecommendationEngine
 from resumeoptimizer.scoring import ATSScorer
+from resumeoptimizer.visualization import AnalysisVisualizer
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -77,6 +79,36 @@ def main() -> None:
         job,
     )
 
+    analysis_report = AnalysisReport()
+
+    analysis_dataframe = analysis_report.create_dataframe(
+        resume,
+        job,
+    )
+
+    output_directory = args.output.parent
+
+    output_directory.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    analysis_csv_path = output_directory / "analysis.csv"
+
+    analysis_dataframe.to_csv(
+        analysis_csv_path,
+        index=False,
+    )
+
+    visualizer = AnalysisVisualizer()
+
+    analysis_chart_path = output_directory / "analysis.png"
+
+    visualizer.create_score_chart(
+        analysis_dataframe,
+        analysis_chart_path,
+    )
+
     recommendation_engine = RecommendationEngine()
     recommendations = recommendation_engine.generate(
         resume,
@@ -101,6 +133,17 @@ def main() -> None:
     print(f"Job description: {args.job_description}")
     print(f"ATS score: {analysis.score:.2f}")
     print()
+    print("Analysis:")
+
+    for _, row in analysis_dataframe.iterrows():
+        print(
+            f"- {row['Category']}: "
+            f"{row['Matched']} matched / "
+            f"{row['Missing']} missing "
+            f"({row['Score']:.2f}%)"
+        )
+
+    print()
     print("Recommendations:")
 
     for recommendation in recommendations:
@@ -108,6 +151,8 @@ def main() -> None:
 
     print()
     print(f"Optimized PDF: {output_path}")
+    print(f"Analysis CSV: {analysis_csv_path}")
+    print(f"Analysis chart: {analysis_chart_path}")
 
 
 if __name__ == "__main__":
