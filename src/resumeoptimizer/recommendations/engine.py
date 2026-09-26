@@ -31,6 +31,17 @@ class RecommendationEngine:
         "gmbh",
     }
 
+    JOB_SECTION_KEYWORDS: ClassVar[set[str]] = {
+        "required",
+        "requirements",
+        "preferred",
+        "qualifications",
+        "skills",
+        "skill",
+        "mandatory",
+        "desired",
+    }
+
     def __init__(self) -> None:
         """Initialize the matching components."""
         self.skill_matcher = SkillMatcher()
@@ -155,6 +166,7 @@ class RecommendationEngine:
     ) -> set[str]:
         """Return keywords that should not create recommendations."""
         excluded = set(self.GENERIC_KEYWORDS)
+        excluded.update(self.JOB_SECTION_KEYWORDS)
 
         title_words = re.findall(
             r"[a-zA-Z0-9+#.-]+",
@@ -169,5 +181,12 @@ class RecommendationEngine:
         )
 
         excluded.update(word.strip("-. ") for word in company_words)
+
+        skill_words = re.findall(
+            r"[a-zA-Z0-9+#.-]+",
+            " ".join(job.required_skills + job.preferred_skills).lower(),
+        )
+
+        excluded.update(word.strip("-. ") for word in skill_words)
 
         return excluded

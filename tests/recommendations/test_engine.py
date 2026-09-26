@@ -168,3 +168,102 @@ def test_invalid_job_is_rejected() -> None:
             resume,
             "not a job",  # type: ignore[arg-type]
         )
+
+
+def test_job_structure_keywords_do_not_create_recommendations() -> None:
+    """Test that job-description structure words are ignored."""
+    resume = Resume(
+        text="Python",
+        skills=["Python"],
+    )
+
+    job = JobDescription(
+        text=("AI Engineer\nRequired Skills\nPython\nPreferred Skills\nAWS"),
+        required_skills=["Python"],
+        preferred_skills=["AWS"],
+    )
+
+    recommendations = RecommendationEngine().generate(
+        resume,
+        job,
+    )
+
+    keyword_recommendations = [
+        recommendation
+        for recommendation in recommendations
+        if recommendation.category == "Keywords"
+    ]
+
+    assert not any(
+        keyword in recommendation.message
+        for recommendation in keyword_recommendations
+        for keyword in [
+            "required",
+            "preferred",
+            "skills",
+        ]
+    )
+
+
+def test_missing_skill_does_not_create_duplicate_keyword_recommendation() -> None:
+    """Test that a missing skill produces only the skill recommendation."""
+    resume = Resume(
+        text="Python",
+        skills=["Python"],
+    )
+
+    job = JobDescription(
+        text="Python Developer AWS",
+        required_skills=[
+            "Python",
+            "AWS",
+        ],
+    )
+
+    recommendations = RecommendationEngine().generate(
+        resume,
+        job,
+    )
+
+    aws_recommendations = [
+        recommendation
+        for recommendation in recommendations
+        if "AWS" in recommendation.message or "aws" in recommendation.message
+    ]
+
+    assert len(aws_recommendations) == 1
+    assert aws_recommendations[0].category == "Skills"
+    assert aws_recommendations[0].priority == "HIGH"
+
+
+def test_meaningful_keyword_still_creates_recommendation() -> None:
+    """Test that meaningful non-skill keywords still generate recommendations."""
+    resume = Resume(
+        text="Python developer",
+        skills=["Python"],
+    )
+
+    job = JobDescription(
+        text="Python developer with microservices and Agile experience",
+        required_skills=["Python"],
+    )
+
+    recommendations = RecommendationEngine().generate(
+        resume,
+        job,
+    )
+
+    keyword_recommendations = [
+        recommendation
+        for recommendation in recommendations
+        if recommendation.category == "Keywords"
+    ]
+
+    assert any(
+        "microservices" in recommendation.message
+        for recommendation in keyword_recommendations
+    )
+
+    assert any(
+        "agile" in recommendation.message for recommendation in keyword_recommendations
+    )
