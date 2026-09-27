@@ -1,40 +1,56 @@
 # Resume Optimizer
 
-## Resume Tailoring & ATS Optimization Toolkit
+Resume Optimizer is a Python project for comparing a resume with a job
+description and generating an ATS-style analysis.
 
-Resume Optimizer is a Python package designed to analyze resumes
-against job descriptions, calculate an ATS-style compatibility
-score, provide tailoring recommendations, and generate optimized
-resume documents.
+The project can read resume and job-description files, extract skills and
+other information, compare keywords, calculate a compatibility score, and
+generate recommendations. It can also create an optimized PDF version of
+the resume.
 
-## Project Status
+The optimizer only uses information that is already present in the resume.
+It does not add missing skills or experience.
 
-🚧 Under active development.
+## Features
 
-## Planned Features
+- Read TXT, PDF, and DOCX files
+- Detect common resume sections
+- Extract basic resume and job-description information
+- Match required and preferred skills
+- Match keywords between a resume and job description
+- Calculate an ATS-style compatibility score
+- Generate a CSV analysis report
+- Generate a score chart using Matplotlib
+- Provide recommendations for missing skills and keywords
+- Reorder existing job-relevant skills in the resume
+- Generate a PDF version of the optimized resume
+- Run the complete process from the command line
+- Automated tests for the main components
 
-- Resume parsing
-- Job description analysis
-- Keyword extraction
-- Skill matching
-- ATS-style compatibility scoring
-- Score breakdown
-- Tailoring recommendations
-- Resume optimization
-- PDF resume generation
-- Command-line interface
-- Automated testing
-- Visual analysis
+## Project Structure
 
-## Requirements
-
-- Python >= 3.10
-- Git
-- uv
-
-## Installation
-
-The package can be installed in editable mode using:
-
-```bash
-uv pip install -e .
+```text
+Resume-Optimizer/
+├── examples/
+│   ├── sample_job.txt
+│   └── sample_resume.txt
+├── output/
+├── reports/
+├── src/
+│   └── resumeoptimizer/
+│       ├── analysis/
+│       ├── extraction/
+│       ├── makers/
+│       ├── matching/
+│       ├── models/
+│       ├── optimization/
+│       ├── parsers/
+│       ├── processing/
+│       ├── recommendations/
+│       ├── scoring/
+│       ├── visualization/
+│       ├── cli.py
+│       └── __main__.py
+├── tests/
+├── pyproject.toml
+└── README.md
