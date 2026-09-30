@@ -17,6 +17,7 @@ class SectionDetector:
         },
         "skills": {
             "skills",
+            "skill set",
             "technical skills",
             "core skills",
             "technical expertise",
