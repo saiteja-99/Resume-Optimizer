@@ -69,7 +69,7 @@ class SkillMatcher:
             if not normalized_skill:
                 continue
 
-            if normalized_skill in resume_skills:
+            if self._is_skill_matched(normalized_skill, resume_skills):
                 matched.append(skill)
             else:
                 missing.append(skill)
@@ -83,3 +83,19 @@ class SkillMatcher:
         skill = re.sub(r"\s+", " ", skill)
 
         return skill.strip()
+
+    def _is_skill_matched(
+        self,
+        normalized_skill: str,
+        resume_skills: dict[str, str],
+    ) -> bool:
+        """Check whether a required skill is present in the resume."""
+        if normalized_skill in resume_skills:
+            return True
+
+        if normalized_skill == "sql":
+            return any(
+                skill == "mysql" or skill.endswith(" sql") for skill in resume_skills
+            )
+
+        return False
